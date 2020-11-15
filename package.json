@@ -1,0 +1,11 @@
+{
+  "main": "index.js",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "electron .",
+    "test": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^10.1.5"
+  }
+}
