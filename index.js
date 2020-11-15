@@ -1,25 +1,28 @@
 let {app, BrowserWindow} = require("electron");
-const url = require("url");
-const path = require("path");
-const fs = require("fs");
+if(require("electron-squirrel-startup")) app.quit();
 
-console.log("");
+console.log("Starting Scorpio...");
 
-app.on("ready", ligar);
+app.on("ready", function(){ligar()});
 
-app.on("quit", desligar);
+app.on("quit", function(){desligar()});
 
-app.on("window-all-closed", desligarTudo);
+app.on("window-all-closed", function(){desligarTudo()});
 
 function ligar(){
     const win = new BrowserWindow({
 
     });
-    
-    win.loadURL(url.pathToFileURL(path.join(__dirname, "./scorpio/login.html")));
+    console.log("Started scorpio!");
+    win.loadFile("./scorpio/login.html");
+
+    function sendStatusToWindow(obj){
+        win.webContents.send(obj);
+    }
 }
 
 function desligar(){
+    console.log("Closing scorpio...");
     process.exit(0);
 }
 

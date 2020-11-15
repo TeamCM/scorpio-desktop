@@ -1,11 +1,48 @@
 {
+  "name": "Scorpio",
   "main": "index.js",
   "version": "1.0.0",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/TeamCM/scorpio-desktop"
+  },
+  "description": "Scorpio is an app to chat as Discord app, but updates is made by community",
   "scripts": {
     "start": "electron .",
-    "test": "electron ."
+    "test": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder -wl",
+    "buildwin": "electron-builder --win",
+    "buildlinux": "electron-builder --linux",
+    "install": "install-app-deps"
   },
   "devDependencies": {
-    "electron": "^10.1.5"
-  }
+    "electron": "^10.1.5",
+    "electron-builder": "^22.9.1",
+    "electron-builder-squirrel-windows": "^22.9.1"
+  },
+  "license": "GPL-3.0-only",
+  "author": {
+    "name": "TeamCM",
+    "email": "theteamcm321@gmail.com"
+  },
+  "publisher": "TeamCM",
+  "build": {
+    "squirrelWindows": {
+      "iconUrl": "http://localhost/favicon.ico",
+      "msi": false,
+      "remoteReleases": "https://github.com/TeamCM/scorpio-desktop"
+    },
+    "win": {
+      "target": "squirrel"
+    },
+    "linux": {
+      "category": "Utility",
+      "target": "deb"
+    }
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "icon": "http://localhost/favicon.ico"
 }
