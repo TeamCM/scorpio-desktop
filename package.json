@@ -1,24 +1,25 @@
 {
   "name": "Scorpio",
   "main": "index.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "repository": {
     "type": "github",
     "url": "https://github.com/TeamCM/scorpio-desktop"
   },
-  "description": "Scorpio is an app to chat as Discord app, but updates is made by community",
+  "description": "Scorpio is an open-souce based-on discord app",
   "scripts": {
-    "start": "electron .",
+    "start": "electron-forge start",
     "test": "electron .",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder -wl",
-    "buildwin": "electron-builder --win",
-    "buildlinux": "electron-builder --linux",
-    "install": "install-app-deps"
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
     "electron": "^10.1.5",
-    "electron-builder": "^22.9.1",
     "electron-builder-squirrel-windows": "^22.9.1"
   },
   "license": "GPL-3.0-only",
@@ -27,22 +28,40 @@
     "email": "theteamcm321@gmail.com"
   },
   "publisher": "TeamCM",
-  "build": {
-    "squirrelWindows": {
-      "iconUrl": "http://localhost/favicon.ico",
-      "msi": false,
-      "remoteReleases": "https://github.com/TeamCM/scorpio-desktop"
-    },
-    "win": {
-      "target": "squirrel"
-    },
-    "linux": {
-      "category": "Utility",
-      "target": "deb"
-    }
-  },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-log": "^4.3.1",
+    "electron-notification-state": "^1.0.4",
+    "electron-squirrel-startup": "^1.0.0",
+    "update-electron-app": "^2.0.1"
   },
-  "icon": "http://localhost/favicon.ico"
+  "icon": "./favicon-32x32.png",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "favicon.ico"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "Scorpio"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
 }

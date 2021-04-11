@@ -1,4 +1,6 @@
 node_modules/
 yarn.lock
-dist/
 Scorpio-v*.tgz
+*app-update.yml
+out/
+.env

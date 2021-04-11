@@ -1,29 +1,63 @@
-let {app, BrowserWindow} = require("electron");
-if(require("electron-squirrel-startup")) app.quit();
+let {app, BrowserWindow, ipcMain, nativeTheme, Notification} = require("electron");
+if(require('electron-squirrel-startup')) return app.quit();
+const electronLog = require("electron-log");
 
-console.log("Starting Scorpio...");
+electronLog.transports.console.format = '{h}:{i}:{s} {text}';
 
-app.on("ready", function(){ligar()});
+require("update-electron-app")({
+    repo: "TeamCM/scorpio-desktop",
+    updateInterval: "10 minutes",
+    logger: electronLog
+});
 
-app.on("quit", function(){desligar()});
+nativeTheme.themeSource = "dark";
+electronLog.log("Starting Scorpio...");
 
-app.on("window-all-closed", function(){desligarTudo()});
+const { getDoNotDisturb } = require("electron-notification-state");
+
+app.on("ready", ligar);
+
+app.on("quit", function(){
+    electronLog.log("Closing scorpio...");
+    process.exit();
+});
+
+app.on("window-all-closed", function(){
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
 
 function ligar(){
-    const win = new BrowserWindow({
-
+    let win = new BrowserWindow({
+        webPreferences: {
+            nodeIntegration: true,
+            allowRunningInsecureContent: false,
+            contextIsolation: false
+        },
+        icon: "./favicon.ico",
+        frame: false
     });
-    console.log("Started scorpio!");
-    win.loadFile("./scorpio/login.html");
+    electronLog.log("Started scorpio!");
 
-    function sendStatusToWindow(obj){
-        win.webContents.send(obj);
-    }
+    win.setMenu(null);
+    win.maximize();
+
+    win.on('closed', () => {
+        win = null;
+    });
+    ipcMain.on("close", ()=>{win.close();});
+    ipcMain.on("maximize", (event)=>{if(!win.isMaximized()){win.maximize();}else{win.unmaximize();}event.reply("Tried to maximize!");});
+    ipcMain.on("minimize", (event)=>{win.minimize();event.reply("Tried to minimize!");});
+    ipcMain.on("notification", (event, notObj) => {
+        if(getDoNotDisturb() || win.isFocused()) return event.reply("false");
+        new Notification({title: notObj.author, body: notObj.message}).on("click", function(){
+            win.focus();
+        }).show();
+        event.reply("true");
+    });
+
+    win.loadURL(process.env.IP || "http://localhost/app"); //Zerotier one network not an real ip
+    
+    return true;
 }
-
-function desligar(){
-    console.log("Closing scorpio...");
-    process.exit(0);
-}
-
-function desligarTudo(){app = null}
