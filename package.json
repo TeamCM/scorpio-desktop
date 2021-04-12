@@ -11,7 +11,7 @@
     "start": "electron-forge start",
     "test": "electron .",
     "package": "electron-forge package",
-    "make": "electron-forge make && del /q *.exe && copy .\\out\\make\\squirrel.windows\\x64\\*.exe ."
+    "make": "electron-forge make"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
