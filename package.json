@@ -1,7 +1,7 @@
 {
   "name": "Scorpio",
   "main": "index.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "repository": {
     "type": "github",
     "url": "https://github.com/TeamCM/scorpio-desktop"
@@ -11,7 +11,7 @@
     "start": "electron-forge start",
     "test": "electron .",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make && del /q *.exe && copy .\\out\\make\\squirrel.windows\\x64\\*.exe ."
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
@@ -31,14 +31,13 @@
   "dependencies": {
     "electron-log": "^4.3.1",
     "electron-notification-state": "^1.0.4",
-    "electron-squirrel-startup": "^1.0.0",
-    "update-electron-app": "^2.0.1"
+    "electron-squirrel-startup": "^1.0.0"
   },
-  "icon": "./favicon-32x32.png",
+  "icon": "./icon.png",
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "favicon.ico"
+        "icon": "icon.ico"
       },
       "makers": [
         {

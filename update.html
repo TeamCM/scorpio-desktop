@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Verificando por atualizações - Scorpio</title>
+    <style>
+        body{
+            background-color: #444444;
+            color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <h2 id="status">Verificando por atualizações...</h2>
+    <script>
+        const ipcRenderer = require("electron").ipcRenderer;
+
+        ipcRenderer.on("update-avaliable", () => {
+            document.querySelector("#status").innerText = "Atualizando...";
+        });
+        ipcRenderer.on("update-downloaded", () => {
+            document.querySelector("#status").innerText = "Instalando...";
+            setTimeout(function(){
+                ipcRenderer.send("update");
+            }, 2000);
+        });
+        ipcRenderer.on("error", () => {
+            document.querySelector("#status").innerText = "Erro ao atualizar.";
+        });
+    </script>
+</body>
+</html>
